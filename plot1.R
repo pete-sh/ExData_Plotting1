@@ -1,3 +1,5 @@
+## function to generate plot1
+## --------------------------
 plot1 <- function(file = "household_power_consumption.txt",
                   directory = "C:/LocalData/__SUE/MOUNTS/64GB_SD_Card/D/_Data_Management_Strategical/Data_Science/_COURSERA_STUFF/Course_4_Exploratory_Data_Analysis/Project_1/Data",
                   startDate = "1/2/2007",
@@ -39,7 +41,7 @@ getData <- function(file, directory, startDate, endDate, summarize) {
   input.data <- read.table(paste(directory,file, sep = "/", collapse = NULL), header = TRUE, sep=";", quote="\"", na.strings="?")
   
   ## eliminate obsolete data - reduce to requested dates
-  input.data <- subset(input.data, as.Date(Date,"%d/%m/%Y") >= as.Date(startDate, "%d/%m/%Y") & as.Date(Date,"%d/%m/%Y") <= as.Date(endDate, "%d/%m/%Y"), select = c("Date","Time","Global_active_power","Voltage","Global_intensity", "Sub_metering_1","Sub_metering_2", "Sub_metering_3"))
+  input.data <- subset(input.data, as.Date(Date,"%d/%m/%Y") >= as.Date(startDate, "%d/%m/%Y") & as.Date(Date,"%d/%m/%Y") <= as.Date(endDate, "%d/%m/%Y"), select = c("Date","Time","Global_active_power","Global_reactive_power","Voltage","Global_intensity","Sub_metering_1","Sub_metering_2","Sub_metering_3"))
   
   if (summarize == TRUE) {
     print(summary(input.data))
