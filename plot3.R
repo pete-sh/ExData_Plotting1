@@ -1,4 +1,4 @@
-plot1 <- function(file = "household_power_consumption.txt",
+plot3 <- function(file = "household_power_consumption.txt",
                   directory = "C:/LocalData/__SUE/MOUNTS/64GB_SD_Card/D/_Data_Management_Strategical/Data_Science/_COURSERA_STUFF/Course_4_Exploratory_Data_Analysis/Project_1/Data",
                   startDate = "1/2/2007",
                   endDate = "2/2/2007",
@@ -7,11 +7,24 @@ plot1 <- function(file = "household_power_consumption.txt",
   ## call generalized function to read the relevant part of the data
   plotData <- getData(file, directory, startDate, endDate, summarize)
   
-  ## open device to create PNG file
-  png("plot1.png", width = 480, height = 480)
+  ## need to reformat date and time vectors into one single vector
+  date_time <- strptime(paste(plotData$Date, plotData$Time), "%d/%m/%Y %H:%M:%S")
+  plotData  <- cbind(date_time, plotData[,-(1:2)])
   
-  ## create histogram with requested parameters
-  hist(plotData$Global_active_power, col = "Red", main = "Global Active Power", xlab = "Global Active Power (kilowatts)")
+  ## open device to create PNG file
+  png("plot3.png", width = 480, height = 480)
+  
+  ## create plot with requested parameters
+  plot(plotData$Sub_metering_1 ~ plotData$date_time, type = "l", main = "", xlab = "", ylab = "Energy sub metering")
+  
+  # Now add lines for the sub_2 in red
+  lines(plotData$Sub_metering_2 ~ plotData$date_time, col = "Red")
+  
+  # Now add lines for the sub_3 in blue
+  lines(plotData$Sub_metering_3 ~ plotData$date_time, col = "Blue")
+  
+  # Now add the legend
+  legend("topright", col = c("Black", "Red", "Blue"), legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty = 1)
   
   ## write PNG file
   dev.off()
